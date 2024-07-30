@@ -229,7 +229,7 @@ For every image $\mathbf{x}_0$ in your training dataset:
 
 - Repeat the following steps until convergence.
 - Pick a random time stamp $t \sim \text{Uniform}[1, T]$.
-- Draw a sample $\mathbf{x}_{t} \sim q\left(\mathbf{x}_{t} | \mathbf{x}_{t}\right)$, i.e.
+- Draw a sample $\mathbf{x}_{t} \sim q\left(\mathbf{x}_{t} | \mathbf{x}_{0}\right)$, i.e.
   
 $$
 \mathbf{x}_{t} = \sqrt{\overline{\alpha}_t} \mathbf{x}_{0} + \sqrt{1 - \overline{\alpha}_t} \epsilon, \quad \epsilon \sim \mathcal{N}(\mathbf{0}, \mathbf{I})
@@ -262,8 +262,8 @@ You can do this in batches, just like how you train any other neural networks. N
 $$
 \begin{aligned}
 \mathbf{x}_{t-1} &\sim p_{\theta}\left(\mathbf{x}_{t-1} | \mathbf{x}_{t}\right) = \mathcal{N}(\mathbf{x}_{t-1}; \tilde{\bm{\mu}}_{\theta}\left(\mathbf{x}_{t}, t\right) , \sigma^2 \left(t\right) \mathbf{I})  \\
-\mathbf{x}_{t-1} &= \tilde{\bm{\mu}}_{\theta}\left(\mathbf{x}_{t}, t\right) + \sigma^2 \left(t\right) \bm{\epsilon} \\
-&= \frac{\left( 1 - \overline{\alpha}_{t-1} \right) \sqrt{\alpha_t}}{\left( 1 - \overline{\alpha}_{t} \right)} \mathbf{x}_{t} + \frac{\left(1 - \alpha_t\right) \sqrt{\overline{\alpha}_{t-1}}}{\left( 1 - \overline{\alpha}_{t} \right)} \tilde{\mathbf{x}}_{\theta} \left(\mathbf{x}_{t}, t\right) +  \sigma^2 \left(t\right) \bm{\epsilon}
+\mathbf{x}_{t-1} &= \tilde{\bm{\mu}}_{\theta}\left(\mathbf{x}_{t}, t\right) + \sigma \left(t\right) \bm{\epsilon} \\
+&= \frac{\left( 1 - \overline{\alpha}_{t-1} \right) \sqrt{\alpha_t}}{\left( 1 - \overline{\alpha}_{t} \right)} \mathbf{x}_{t} + \frac{\left(1 - \alpha_t\right) \sqrt{\overline{\alpha}_{t-1}}}{\left( 1 - \overline{\alpha}_{t} \right)} \tilde{\mathbf{x}}_{\theta} \left(\mathbf{x}_{t}, t\right) +  \sigma \left(t\right) \bm{\epsilon}
 \end{aligned} \tag{9}
 $$
 
@@ -283,7 +283,7 @@ $$
 - Update according to
 
 $$
-\mathbf{x}_{t-1} = \frac{\left( 1 - \overline{\alpha}_{t-1} \right) \sqrt{\alpha_t}}{\left( 1 - \overline{\alpha}_{t} \right)} \mathbf{x}_{t} + \frac{\left(1 - \alpha_t\right) \sqrt{\overline{\alpha}_{t-1}}}{\left( 1 - \overline{\alpha}_{t} \right)} \tilde{\mathbf{x}}_{\theta} \left(\mathbf{x}_{t}, t\right) +  \sigma^2 \left(t\right) \bm{\epsilon}, \quad \bm{\epsilon} \sim \mathcal{N}\left(\mathbf{0}, \mathbf{I}\right)
+\mathbf{x}_{t-1} = \frac{\left( 1 - \overline{\alpha}_{t-1} \right) \sqrt{\alpha_t}}{\left( 1 - \overline{\alpha}_{t} \right)} \mathbf{x}_{t} + \frac{\left(1 - \alpha_t\right) \sqrt{\overline{\alpha}_{t-1}}}{\left( 1 - \overline{\alpha}_{t} \right)} \tilde{\mathbf{x}}_{\theta} \left(\mathbf{x}_{t}, t\right) +  \sigma \left(t\right) \bm{\epsilon}, \quad \bm{\epsilon} \sim \mathcal{N}\left(\mathbf{0}, \mathbf{I}\right)
 $$
 
 **Output:** $\mathbf{x}_{0}$.
